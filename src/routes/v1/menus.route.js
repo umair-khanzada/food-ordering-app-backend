@@ -2,37 +2,37 @@ const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const menuValidation = require('../../validations/menus.validation');
-const userController = require('../../controllers/user.controller');
+const { createMenu, getMenus, getMenu, updateMenu } = require('../../controllers/menu.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(menuValidation.createMenu), userController.createUser)
-  .get(auth('getUsers'), validate(menuValidation.getMenus), userController.getUsers);
+  .post(auth('manageUsers'), validate(menuValidation.createMenu), createMenu)
+  .get(auth('getUsers'), validate(menuValidation.getMenus), getMenus);
 
 router
   .route('/:userId')
-  .get(auth('getUsers'), validate(menuValidation.getMenu), userController.getUser)
-  .patch(auth('manageUsers'), validate(menuValidation.updateMenu), userController.updateUser)
-  .delete(auth('manageUsers'), validate(menuValidation.deleteMenu), userController.deleteUser);
+  .get(auth('getUsers'), validate(menuValidation.getMenu), getMenu)
+  .patch(auth('manageUsers'), validate(menuValidation.updateMenu), updateMenu)
+  .delete(auth('manageUsers'), validate(menuValidation.deleteMenu), deleteMenu);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Menus
+ *   description: Menu management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /menus:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a menu
+ *     description: User can create other menus.
+ *     tags: [Menus]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -43,16 +43,15 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - email
+ *               - quantity
  *               - password
  *               - role
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
+ *               quantity:
+ *                 type: Number
+ *
  *               password:
  *                 type: string
  *                 format: password
@@ -63,7 +62,7 @@ module.exports = router;
  *                  enum: [user, admin]
  *             example:
  *               name: fake name
- *               email: fake@example.com
+ *               quantity: 100
  *               password: password1
  *               role: user
  *     responses:
@@ -72,7 +71,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Menu'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -81,9 +80,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all menus
+ *     description: Only admins can retrieve all menus.
+ *     tags: [Menus]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -91,12 +90,12 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Menu name
  *       - in: query
  *         name: role
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Menu role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -108,7 +107,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of menus
  *       - in: query
  *         name: page
  *         schema:
@@ -127,7 +126,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Menu'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -148,11 +147,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /menus/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a menu
+ *     description: Logged in users can fetch menu information.
+ *     tags: [Menus]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -161,14 +160,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Menu id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Menu'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -179,7 +178,7 @@ module.exports = router;
  *   patch:
  *     summary: Update a user
  *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     tags: [Menus]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -188,7 +187,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Menu id
  *     requestBody:
  *       required: true
  *       content:
@@ -198,10 +197,8 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
+ *               quantity:
+ *                 type: number
  *               password:
  *                 type: string
  *                 format: password
@@ -209,7 +206,7 @@ module.exports = router;
  *                 description: At least one number and one letter
  *             example:
  *               name: fake name
- *               email: fake@example.com
+ *               quantity: 100
  *               password: password1
  *     responses:
  *       "200":
@@ -217,7 +214,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Menu'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -229,8 +226,8 @@ module.exports = router;
  *
  *   delete:
  *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     description: Logged in users can delete only their menus. Only admins can delete other menus.
+ *     tags: [Menus]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -239,7 +236,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Menu id
  *     responses:
  *       "200":
  *         description: No content
