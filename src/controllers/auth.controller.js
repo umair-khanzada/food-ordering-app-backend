@@ -30,7 +30,7 @@ const forgotPassword = catchAsync(async (req, res) => {
   // await emailService.sendResetPasswordEmail(req.body.email, resetPasswordToken);
   const { email, password } = req.body;
   await authService.forgotPassword(email, password);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.status(httpStatus.OK).send({ message: 'Password Updated Successfully!!' });
 });
 
 const resetPassword = catchAsync(async (req, res) => {
