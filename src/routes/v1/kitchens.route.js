@@ -1,38 +1,43 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const menuValidation = require('../../validations/menus.validation');
-const userController = require('../../controllers/user.controller');
+const kitchenValidation = require('../../validations/kitchen.validation');
+const {
+  createKitchen,
+  getKitchens,
+  getKitchen,
+  updateKitchen,
+  deleteKitchen,
+} = require('../../controllers/kitchen.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(menuValidation.createMenu), userController.createUser)
-  .get(auth('getUsers'), validate(menuValidation.getMenus), userController.getUsers);
+  .post(validate(kitchenValidation.createKitchen), createKitchen)
+  .get(validate(kitchenValidation.getKitchens), getKitchens);
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(menuValidation.getMenu), userController.getUser)
-  .patch(auth('manageUsers'), validate(menuValidation.updateMenu), userController.updateUser)
-  .delete(auth('manageUsers'), validate(menuValidation.deleteMenu), userController.deleteUser);
+  .route('/:kitchenId')
+  .get(validate(kitchenValidation.getKitchen), getKitchen)
+  .patch(validate(kitchenValidation.updateKitchen), updateKitchen)
+  .delete(validate(kitchenValidation.deleteKitchen), deleteKitchen);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Kitchens
+ *   description: Kitchens management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /kitchens:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a kitchen
+ *     description: User can create other kitchens.
+ *     tags: [Kitchens]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -43,36 +48,18 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - email
- *               - password
- *               - role
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [user, admin]
  *             example:
  *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Kitchens'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -81,9 +68,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all kitchens
+ *     description: Only admins can retrieve all kitchens.
+ *     tags: [Kitchens]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -91,12 +78,7 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
- *       - in: query
- *         name: role
- *         schema:
- *           type: string
- *         description: User role
+ *         description: Kitchens name
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -108,7 +90,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of kitchens
  *       - in: query
  *         name: page
  *         schema:
@@ -126,8 +108,8 @@ module.exports = router;
  *               properties:
  *                 results:
  *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                   kitchens:
+ *                     $ref: '#/components/schemas/Kitchens'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -148,11 +130,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /kitchens/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a kitchen
+ *     description: Logged in users can fetch kitchen information.
+ *     tags: [Kitchens]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -161,14 +143,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Kitchens id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Kitchens'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -177,9 +159,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
+ *     summary: Update an kitchen
  *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     tags: [Kitchens]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -188,7 +170,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Kitchens id
  *     requestBody:
  *       required: true
  *       content:
@@ -198,26 +180,15 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
  *             example:
  *               name: fake name
- *               email: fake@example.com
- *               password: password1
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Kitchens'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -228,9 +199,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete an kitchen
+ *     description: Logged in users can delete only their kitchens. Only admins can delete other kitchens.
+ *     tags: [Kitchens]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -239,7 +210,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Kitchens id
  *     responses:
  *       "200":
  *         description: No content

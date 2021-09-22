@@ -62,7 +62,7 @@ const refreshAuth = async (refreshToken) => {
 const resetPassword = async (resetPasswordToken, newPassword) => {
   try {
     const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
-    const user = await userService.getUserById(resetPasswordTokenDoc.user);
+    const user = await userService.getUserByEmail(resetPasswordTokenDoc.user);
     if (!user) {
       throw new Error();
     }
@@ -92,10 +92,25 @@ const verifyEmail = async (verifyEmailToken) => {
   }
 };
 
+const forgotPassword = async (email, newPassword) => {
+  try {
+    // const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
+    const user = await userService.getUserByEmail(email);
+    console.log('USER!!!', user);
+    if (!user) {
+      throw new Error();
+    }
+    await userService.updateUserById(user.id, { password: newPassword });
+  } catch (error) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password updated failed');
+  }
+};
+
 module.exports = {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,
   resetPassword,
   verifyEmail,
+  forgotPassword,
 };
