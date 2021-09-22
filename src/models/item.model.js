@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { toJSON, paginate } = require('./plugins');
 
-const menusSchema = Schema(
+const itemsSchema = Schema(
   {
     name: {
       type: String,
@@ -22,9 +22,17 @@ const menusSchema = Schema(
       type: Boolean,
       required: true,
     },
-    vendorId: {
+    createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Categories',
+    },
+    kitchenId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Kitchens',
     },
     availableDate: {
       type: Date,
@@ -37,11 +45,11 @@ const menusSchema = Schema(
 );
 
 // add plugin that converts mongoose to json
-menusSchema.plugin(toJSON);
-menusSchema.plugin(paginate);
+itemsSchema.plugin(toJSON);
+itemsSchema.plugin(paginate);
 /**
- * @typedef Menus
+ * @typedef Items
  */
-const Menus = mongoose.model('Menus', menusSchema);
+const Items = mongoose.model('Items', itemsSchema);
 
-module.exports = Menus;
+module.exports = Items;

@@ -1,59 +1,63 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
-const createMenu = {
+const createItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     quantity: Joi.number().required(),
     isAvailable: Joi.boolean().required(),
-    vendorId: Joi.string().custom(objectId),
+    createdBy: Joi.string().custom(objectId),
+    KitchenId: Joi.string().custom(objectId),
+    categoryId: Joi.string().custom(objectId),
     availableDate: Joi.date(),
   }),
 };
 
-const getMenus = {
+const getItems = {
   query: Joi.object().keys({
     name: Joi.string(),
     quantity: Joi.number(),
     isAvailable: Joi.boolean(),
-    vendorId: Joi.string().custom(objectId),
+    createdBy: Joi.string().custom(objectId),
     availableDate: Joi.date(),
+    KitchenId: Joi.string().custom(objectId),
+    categoryId: Joi.string().custom(objectId),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
 };
 
-const getMenu = {
+const getItem = {
   params: Joi.object().keys({
-    menuId: Joi.string().custom(objectId),
+    itemId: Joi.string().custom(objectId),
   }),
 };
 
-const updateMenu = {
+const updateItem = {
   params: Joi.object().keys({
-    menuId: Joi.required().custom(objectId),
+    itemId: Joi.required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
       name: Joi.string().required(),
       quantity: Joi.number().required(),
       isAvailable: Joi.boolean().required(),
-      vendorId: Joi.string().custom(objectId),
+      createdBy: Joi.string().custom(objectId),
       availableDate: Joi.date(),
     })
     .min(1),
 };
 
-const deleteMenu = {
+const deleteItem = {
   params: Joi.object().keys({
-    menuId: Joi.string().custom(objectId),
+    itemId: Joi.string().custom(objectId),
   }),
 };
 
 module.exports = {
-  createMenu,
-  getMenus,
-  getMenu,
-  updateMenu,
-  deleteMenu,
+  createItem,
+  getItems,
+  getItem,
+  updateItem,
+  deleteItem,
 };

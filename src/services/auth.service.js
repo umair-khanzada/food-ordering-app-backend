@@ -96,6 +96,7 @@ const forgotPassword = async (email, newPassword) => {
   try {
     // const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
     const user = await userService.getUserByEmail(email);
+    console.log('USER!!!', user);
     if (!user) {
       throw new Error();
     }
