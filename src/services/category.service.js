@@ -30,7 +30,9 @@ const queryCategories = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Category>}
  */
-const getCategoryById = async (id) => Category.findById(id);
+const getCategoryById = async (id) => {
+  return Category.findById(id);
+};
 const getCategoryByKitchen = async (id) => Category.findById(id);
 
 /**
@@ -57,6 +59,7 @@ const updateCategoryById = async (categoryId, updateBody) => {
  */
 const deleteCategoryById = async (categoryId) => {
   const category = await getCategoryById(categoryId);
+
   if (!category) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
   }
