@@ -36,10 +36,10 @@ const defaultRoutes = [
     path: '/orders',
     route: orderRoutes,
   },
-  // {
-  //   path: '/balances',
-  //   routes: balanceRoutes,
-  // },
+  {
+    path: '/balances',
+    route: balanceRoutes,
+  },
 ];
 
 const devRoutes = [
@@ -51,7 +51,6 @@ const devRoutes = [
 ];
 
 defaultRoutes.forEach((route) => {
-  console.log('ROUTE:::', route);
   router.use(route.path, route.route);
 });
 

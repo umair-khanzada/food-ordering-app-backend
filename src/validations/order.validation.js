@@ -8,7 +8,6 @@ const createOrder = {
     items: Joi.array().items(Joi.string()),
     status: Joi.string().required(),
     amount: Joi.number().required(),
-    contact: Joi.number().required(),
   }),
 };
 

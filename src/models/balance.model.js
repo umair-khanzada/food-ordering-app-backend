@@ -8,13 +8,15 @@ const balanceSchema = Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      unique: true,
     },
     vendorId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      unique: true,
     },
     amount: {
-      type: String,
+      type: Number,
       required: true,
     },
   },

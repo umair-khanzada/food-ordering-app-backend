@@ -14,7 +14,7 @@ const orderSchema = Schema(
       ref: 'User',
     },
     items: {
-      type: [Schema.Types.ObjectId],
+      type: [],
       ref: 'Items',
     },
     status: {
@@ -24,10 +24,6 @@ const orderSchema = Schema(
     },
     amount: {
       type: Number,
-      required: true,
-    },
-    contact: {
-      type: String,
       required: true,
     },
   },

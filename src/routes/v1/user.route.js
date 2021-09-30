@@ -46,6 +46,7 @@ module.exports = router;
  *               - email
  *               - password
  *               - role
+ *               - contact
  *             properties:
  *               name:
  *                 type: string
@@ -61,11 +62,15 @@ module.exports = router;
  *               role:
  *                  type: string
  *                  enum: [user, admin]
+ *               contact:
+ *                   type: string
+ *
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
  *               role: user
+ *               contact: 0213*******
  *     responses:
  *       "201":
  *         description: Created
@@ -211,6 +216,8 @@ module.exports = router;
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
+ *               role: user
+ *               contact: 0213*******
  *     responses:
  *       "200":
  *         description: OK

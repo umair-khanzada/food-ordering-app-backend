@@ -46,7 +46,7 @@ module.exports = router;
  *               - items
  *               - status
  *               - amount
- *               - contact
+
  *             properties:
  *               userId:
  *                 type: string
@@ -58,8 +58,7 @@ module.exports = router;
  *                  type: string
  *               amount:
  *                  type: string
- *               contact:
- *                  type: strung
+
  *             example:
  *               userId: Object(id)
  *               vendorId: Object(id)

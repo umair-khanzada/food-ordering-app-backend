@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
+const { string } = require('joi');
 
 const userSchema = mongoose.Schema(
   {
@@ -43,6 +44,10 @@ const userSchema = mongoose.Schema(
     isEmailVerified: {
       type: Boolean,
       default: false,
+    },
+    contact: {
+      type: String,
+      required: true,
     },
   },
   {
