@@ -5,6 +5,8 @@ const docsRoute = require('./docs.route');
 const categoryRoute = require('./category.route');
 const itemRoute = require('./item.route');
 const kitchenRoute = require('./kitchens.route');
+const orderRoutes = require('./order.route');
+const balanceRoutes = require('./balance.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -30,6 +32,14 @@ const defaultRoutes = [
     path: '/kitchens',
     route: kitchenRoute,
   },
+  {
+    path: '/orders',
+    route: orderRoutes,
+  },
+  // {
+  //   path: '/balances',
+  //   routes: balanceRoutes,
+  // },
 ];
 
 const devRoutes = [
@@ -41,6 +51,7 @@ const devRoutes = [
 ];
 
 defaultRoutes.forEach((route) => {
+  console.log('ROUTE:::', route);
   router.use(route.path, route.route);
 });
 
