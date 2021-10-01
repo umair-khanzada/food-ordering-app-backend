@@ -11,7 +11,7 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 
   if (requiredRights.length) {
     const userRights = roleRights.get(user.role);
-    console.log('User Rights::', userRights);
+
     const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
 
     if (!hasRequiredRights && req.params.userId !== user.id) {
@@ -25,7 +25,6 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 const auth =
   (...requiredRights) =>
   async (req, res, next) => {
-    console.log('......Required Rights:::::', requiredRights);
     return new Promise((resolve, reject) => {
       passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);
     })

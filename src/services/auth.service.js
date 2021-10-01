@@ -39,7 +39,6 @@ const logout = async (refreshToken) => {
  */
 const refreshAuth = async (refreshToken) => {
   try {
-    console.log('Refresh Token:::', refreshToken);
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
     const user = await userService.getUserById(refreshTokenDoc.user);
     if (!user) {
@@ -48,7 +47,6 @@ const refreshAuth = async (refreshToken) => {
     await refreshTokenDoc.remove();
     return tokenService.generateAuthTokens(user);
   } catch (error) {
-    console.log();
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
   }
 };
@@ -96,7 +94,7 @@ const forgotPassword = async (email, newPassword) => {
   try {
     // const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
     const user = await userService.getUserByEmail(email);
-    console.log('USER!!!', user);
+
     if (!user) {
       throw new Error();
     }

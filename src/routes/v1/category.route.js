@@ -13,7 +13,7 @@ router
 
 router
   .route('/:categoryId')
-  .get(auth('getUsers'), validate(categoryValidation.getCategory), categoryController.getCategory)
+  .get(validate(categoryValidation.getCategory), categoryController.getCategory)
   .patch(auth('manageUsers'), validate(categoryValidation.updateCategory), categoryController.updateCategory)
   .delete(auth('manageUsers'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 

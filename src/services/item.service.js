@@ -56,8 +56,7 @@ const updateItemById = async (userId, updateBody) => {
  * @returns {Promise<Item>}
  */
 const deleteItemById = async (itemId) => {
-  console.log('DELETE Item::::', itemId);
-  const item = await getUserById(itemId);
+  const item = await getItemById(itemId);
   if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
   }

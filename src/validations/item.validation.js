@@ -4,12 +4,12 @@ const { objectId } = require('./custom.validation');
 const createItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    quantity: Joi.number().required(),
-    isAvailable: Joi.boolean().required(),
+    // quantity: Joi.number().required(),
+    price: Joi.number(),
     createdBy: Joi.string().custom(objectId),
-    KitchenId: Joi.string().custom(objectId),
+    kitchenId: Joi.string().custom(objectId),
     categoryId: Joi.string().custom(objectId),
-    availableDate: Joi.date(),
+    // availableDate: Joi.date(),
   }),
 };
 
@@ -19,7 +19,7 @@ const getItems = {
     quantity: Joi.number(),
     isAvailable: Joi.boolean(),
     createdBy: Joi.string().custom(objectId),
-    availableDate: Joi.date(),
+    // availableDate: Joi.date(),
     KitchenId: Joi.string().custom(objectId),
     categoryId: Joi.string().custom(objectId),
     limit: Joi.number().integer(),
@@ -41,9 +41,9 @@ const updateItem = {
     .keys({
       name: Joi.string().required(),
       quantity: Joi.number().required(),
-      isAvailable: Joi.boolean().required(),
+      // isAvailable: Joi.boolean().required(),
       createdBy: Joi.string().custom(objectId),
-      availableDate: Joi.date(),
+      // availableDate: Joi.date(),
     })
     .min(1),
 };
