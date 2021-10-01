@@ -7,7 +7,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
-    PORT: Joi.number().default(3000),
+    PORT: Joi.number().default(4000),
     MONGODB_URL: 'mongodb+srv://food-app:*i*Nn8G.BpV2xSG@cluster0.j0dgb.mongodb.net/food-app?retryWrites=true&w=majority',
     JWT_SECRET: 'qQWu6sAVPLnJyy2pCXfaGPeAsThtG3gd',
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
@@ -36,7 +36,9 @@ module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongoose: {
-    url: `mongodb://127.0.0.1:27017/food-app${envVars.NODE_ENV === 'test' ? '-test' : ''}`,
+    url: `mongodb+srv://smy:MW5LsE45dV2zDkac@foa.75vbc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority${
+      envVars.NODE_ENV === 'test' ? '-test' : ''
+    }`,
     options: {
       useCreateIndex: true,
       useNewUrlParser: true,

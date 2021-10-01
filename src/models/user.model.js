@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { string } = require('joi');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
-const { string } = require('joi');
 
 const userSchema = mongoose.Schema(
   {
