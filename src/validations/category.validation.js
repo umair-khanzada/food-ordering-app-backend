@@ -12,8 +12,8 @@ const createCategory = {
 
 const getCategories = {
   query: Joi.object().keys({
-    name: Joi.string().required(),
-    description: Joi.string().required(),
+    name: Joi.string(),
+    description: Joi.string(),
     createdBy: Joi.string().custom(objectId),
     kitchenId: Joi.string().custom(objectId),
     limit: Joi.number().integer(),

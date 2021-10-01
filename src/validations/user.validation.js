@@ -37,7 +37,7 @@ const updateUser = {
       password: Joi.string().custom(password),
       name: Joi.string(),
       contact: Joi.string(),
-      role: Joi.string().required().valid('user', 'admin', 'vendor'),
+      role: Joi.string().valid('user', 'admin', 'vendor'),
     })
     .min(1),
 };
