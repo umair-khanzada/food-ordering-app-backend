@@ -62,7 +62,7 @@ module.exports = router;
  *             example:
  *               userId: Object(id)
  *               vendorId: Object(id)
- *               items: [Object(id), Object(id), Object(id)]
+ *               items: [string, string, string]
  *               status: "pending or recieved"
  *               amount: 100
  *     responses:
