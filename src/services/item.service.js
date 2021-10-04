@@ -20,8 +20,8 @@ const createItem = async (userBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryItems = async (filter, options) => {
-  const items = await Item.paginate(filter, options);
+const queryItems = async () => {
+  const items = await Item.find().populate('categoryId', 'name').populate('kitchenId', 'name');
   return items;
 };
 
@@ -56,8 +56,7 @@ const updateItemById = async (userId, updateBody) => {
  * @returns {Promise<Item>}
  */
 const deleteItemById = async (itemId) => {
-  console.log('DELETE Item::::', itemId);
-  const item = await getUserById(itemId);
+  const item = await getItemById(itemId);
   if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
   }

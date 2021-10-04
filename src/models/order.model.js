@@ -19,7 +19,7 @@ const orderSchema = Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'recieved'],
+      enum: ['pending', 'recieved', 'rejected'],
       default: 'pending',
     },
     amount: {
