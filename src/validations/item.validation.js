@@ -12,7 +12,6 @@ const createItem = {
     // availableDate: Joi.date(),
   }),
 };
-
 const getItems = {
   query: Joi.object().keys({
     name: Joi.string(),
@@ -26,13 +25,11 @@ const getItems = {
     page: Joi.number().integer(),
   }),
 };
-
 const getItem = {
   params: Joi.object().keys({
     itemId: Joi.string().custom(objectId),
   }),
 };
-
 const updateItem = {
   params: Joi.object().keys({
     itemId: Joi.required().custom(objectId),
@@ -40,20 +37,20 @@ const updateItem = {
   body: Joi.object()
     .keys({
       name: Joi.string().required(),
-      quantity: Joi.number().required(),
+      kitchenId: Joi.string().custom(objectId),
+      categoryId: Joi.string().custom(objectId),
+      price: Joi.number(),
       // isAvailable: Joi.boolean().required(),
       createdBy: Joi.string().custom(objectId),
       // availableDate: Joi.date(),
     })
     .min(1),
 };
-
 const deleteItem = {
   params: Joi.object().keys({
     itemId: Joi.string().custom(objectId),
   }),
 };
-
 module.exports = {
   createItem,
   getItems,

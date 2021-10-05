@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const { Item } = require('../models');
 const ApiError = require('../utils/ApiError');
-
 /**
  * Create a item
  * @param {Object} itemBody
@@ -10,7 +9,6 @@ const ApiError = require('../utils/ApiError');
 const createItem = async (userBody) => {
   return Item.create(userBody);
 };
-
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -21,41 +19,41 @@ const createItem = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryItems = async (filter, options) => {
-  const items = await Item.paginate(filter, options);
+  const items = await Item.find().populate('categoryId', 'name').populate('kitchenId', 'name');
   return items;
 };
-
 /**
  * Get item by id
  * @param {ObjectId} id
  * @returns {Promise<Item>}
  */
 const getItemById = async (id) => {
-  return Item.findById(id);
+  return Item.findById(id).populate('categoryId', 'name').populate('kitchenId', 'name');
 };
-
 /**
  * Update item by id
- * @param {ObjectId} userId
+ * @param {ObjectId} itemId
  * @param {Object} updateBody
  * @returns {Promise<Item>}
  */
-const updateItemById = async (userId, updateBody) => {
-  const category = await getItemById(userId);
-  if (!category) {
+const updateItemById = async (itemId, updateBody) => {
+  console.log('itemId', itemId);
+  const item = await getItemById(itemId);
+  console.log('item', item);
+  if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
   }
-  Object.assign(category, updateBody);
-  await category.save();
-  return category;
+  Object.assign(item, updateBody);
+  await item.save();
+  return item;
 };
-
 /**
  * Delete item by id
  * @param {ObjectId} itemId
  * @returns {Promise<Item>}
  */
 const deleteItemById = async (itemId) => {
+  console.log('DELETE Item::::', itemId);
   const item = await getItemById(itemId);
   if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
@@ -63,7 +61,6 @@ const deleteItemById = async (itemId) => {
   await item.remove();
   return item;
 };
-
 module.exports = {
   createItem,
   queryItems,
