@@ -26,8 +26,8 @@ const createAndEditBalance = async (balanceBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryBalances = async (filter, options) => {
-  const response = await Balance.paginate(filter, options);
+const queryBalances = async () => {
+  const response = await Balance.find().populate('vendorId', 'name').populate('userId', 'name');
   return response;
 };
 
