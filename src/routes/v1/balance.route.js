@@ -17,7 +17,7 @@ router
   .get(validate(BalanceValidation.getBalances), getBalances);
 
 router
-  .route('/:BalanceId')
+  .route('/:balanceId')
   .get(validate(BalanceValidation.getBalance), getBalance)
   .patch(validate(BalanceValidation.updateBalance), updateBalance)
   .delete(validate(BalanceValidation.deleteBalance), deleteBalance);

@@ -11,7 +11,7 @@ router
   .get(validate(OrderValidation.getOrders), getOrders);
 
 router
-  .route('/:OrderId')
+  .route('/:orderId')
   .get(validate(OrderValidation.getOrder), getOrder)
   .patch(validate(OrderValidation.updateOrder), updateOrder)
   .delete(validate(OrderValidation.deleteOrder), deleteOrder);
