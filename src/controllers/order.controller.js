@@ -34,10 +34,17 @@ const deleteOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getOrderByVendorId = catchAsync(async (req, res) => {
+  console.log(req, res);
+  const ordersOfVendor = await orderService.find({ vendorId: req.params.vendorId });
+  res.status(httpStatus[200]).send(ordersOfVendor);
+});
+
 module.exports = {
   createOrder,
   getOrders,
   getOrder,
   updateOrder,
   deleteOrder,
+  getOrderByVendorId,
 };

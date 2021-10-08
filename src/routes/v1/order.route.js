@@ -1,7 +1,14 @@
 const express = require('express');
 const validate = require('../../middlewares/validate');
 const OrderValidation = require('../../validations/order.validation');
-const { createOrder, getOrders, getOrder, updateOrder, deleteOrder } = require('../../controllers/order.controller');
+const {
+  createOrder,
+  getOrders,
+  getOrder,
+  updateOrder,
+  deleteOrder,
+  getOrderByVendorId,
+} = require('../../controllers/order.controller');
 
 const router = express.Router();
 
@@ -15,6 +22,8 @@ router
   .get(validate(OrderValidation.getOrder), getOrder)
   .patch(validate(OrderValidation.updateOrder), updateOrder)
   .delete(validate(OrderValidation.deleteOrder), deleteOrder);
+
+router.route('/order/:orderById').get(getOrderByVendorId);
 
 module.exports = router;
 
