@@ -35,7 +35,6 @@ const deleteOrder = catchAsync(async (req, res) => {
 });
 
 const getOrderByVendorId = catchAsync(async (req, res) => {
-  console.log(req.params.vendorId);
   const ordersOfVendor = await orderService.getOrderByVendorId(req.params.vendorId);
   res.send(ordersOfVendor);
 });
