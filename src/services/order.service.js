@@ -20,8 +20,8 @@ const createOrder = async (orderBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryOrders = async (filter, options) => {
-  const response = await Order.paginate(filter, options);
+const queryOrders = async () => {
+  const response = await Order.find().populate('vendorId', 'name').populate('userId', 'name');
   return response;
 };
 
