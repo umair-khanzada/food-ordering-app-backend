@@ -35,9 +35,9 @@ const deleteOrder = catchAsync(async (req, res) => {
 });
 
 const getOrderByVendorId = catchAsync(async (req, res) => {
-  console.log(req, res);
-  const ordersOfVendor = await orderService.find({ vendorId: req.params.vendorId });
-  res.status(httpStatus[200]).send(ordersOfVendor);
+  console.log(req.params.vendorId);
+  const ordersOfVendor = await orderService.getOrderByVendorId(req.params.vendorId);
+  res.send(ordersOfVendor);
 });
 
 module.exports = {

@@ -63,10 +63,20 @@ const deleteOrderById = async (orderId) => {
   return order;
 };
 
+/**
+ * find orders by vendor id
+ * @param {ObjectId} orderId
+ * @returns {Promise<Order>}
+ */
+const getOrderByVendorId = async (vendorId) => {
+  return Order.find({ vendorId });
+};
+
 module.exports = {
   createOrder,
   queryOrders,
   getOrderById,
   updateOrderById,
   deleteOrderById,
+  getOrderByVendorId,
 };

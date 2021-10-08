@@ -23,7 +23,7 @@ router
   .patch(validate(OrderValidation.updateOrder), updateOrder)
   .delete(validate(OrderValidation.deleteOrder), deleteOrder);
 
-router.route('/order/:orderById').get(getOrderByVendorId);
+router.route('/order/:vendorId').get(getOrderByVendorId);
 
 module.exports = router;
 
