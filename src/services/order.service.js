@@ -72,6 +72,10 @@ const getOrderByVendorId = async (vendorId) => {
   return Order.find({ vendorId });
 };
 
+const getOrderByUserId = async (userId) => {
+  return Order.find({ userId });
+};
+
 module.exports = {
   createOrder,
   queryOrders,
@@ -79,4 +83,5 @@ module.exports = {
   updateOrderById,
   deleteOrderById,
   getOrderByVendorId,
+  getOrderByUserId,
 };

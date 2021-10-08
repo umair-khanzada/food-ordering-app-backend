@@ -8,6 +8,7 @@ const {
   updateOrder,
   deleteOrder,
   getOrderByVendorId,
+  getOrderByUserId,
 } = require('../../controllers/order.controller');
 
 const router = express.Router();
@@ -23,7 +24,8 @@ router
   .patch(validate(OrderValidation.updateOrder), updateOrder)
   .delete(validate(OrderValidation.deleteOrder), deleteOrder);
 
-router.route('/order/:vendorId').get(getOrderByVendorId);
+router.route('/vendor/:vendorId').get(getOrderByVendorId);
+router.route('/user/:userId').get(getOrderByUserId);
 
 module.exports = router;
 

@@ -39,6 +39,11 @@ const getOrderByVendorId = catchAsync(async (req, res) => {
   res.send(ordersOfVendor);
 });
 
+const getOrderByUserId = catchAsync(async (req, res) => {
+  const ordersOfUser = await orderService.getOrderByUserId(req.params.userId);
+  res.send(ordersOfUser);
+});
+
 module.exports = {
   createOrder,
   getOrders,
@@ -46,4 +51,5 @@ module.exports = {
   updateOrder,
   deleteOrder,
   getOrderByVendorId,
+  getOrderByUserId,
 };
