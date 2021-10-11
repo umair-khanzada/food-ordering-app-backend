@@ -5,6 +5,7 @@ const createItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     // quantity: Joi.number().required(),
+    imgUrl: Joi.string(),
     price: Joi.number(),
     createdBy: Joi.string().custom(objectId),
     kitchenId: Joi.string().custom(objectId),
@@ -18,6 +19,8 @@ const getItems = {
     quantity: Joi.number(),
     isAvailable: Joi.boolean(),
     createdBy: Joi.string().custom(objectId),
+    imgUrl: Joi.string(),
+
     // availableDate: Joi.date(),
     KitchenId: Joi.string().custom(objectId),
     categoryId: Joi.string().custom(objectId),
@@ -40,6 +43,8 @@ const updateItem = {
       kitchenId: Joi.string().custom(objectId),
       categoryId: Joi.string().custom(objectId),
       price: Joi.number(),
+      imgUrl: Joi.string(),
+
       // isAvailable: Joi.boolean().required(),
       createdBy: Joi.string().custom(objectId),
       // availableDate: Joi.date(),
