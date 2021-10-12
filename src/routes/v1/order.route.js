@@ -1,38 +1,48 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const OrderValidation = require('../../validations/order.validation');
+const {
+  createOrder,
+  getOrders,
+  getOrder,
+  updateOrder,
+  deleteOrder,
+  getOrderByVendorId,
+  getOrderByUserId,
+} = require('../../controllers/order.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .post(validate(OrderValidation.createOrder), createOrder)
+  .get(validate(OrderValidation.getOrders), getOrders);
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:orderId')
+  .get(validate(OrderValidation.getOrder), getOrder)
+  .patch(validate(OrderValidation.updateOrder), updateOrder)
+  .delete(validate(OrderValidation.deleteOrder), deleteOrder);
+
+router.route('/vendor/:vendorId').get(getOrderByVendorId);
+router.route('/user/:userId').get(getOrderByUserId);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Orders
+ *   description: Orders management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /Orders:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a Order
+ *     description: User can create other Orders.
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -42,42 +52,37 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
- *               - email
- *               - password
- *               - role
- *               - contact
+ *               - userId
+ *               - vendorId
+ *               - items
+ *               - status
+ *               - amount
+
  *             properties:
- *               name:
+ *               userId:
  *                 type: string
- *               email:
+ *               vendorId:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
+ *               items:
+ *                 type: Array[string, string]
+ *               status:
  *                  type: string
- *                  enum: [user, admin]
- *               contact:
- *                   type: string
- *
+ *               amount:
+ *                  type: string
+
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
- *               contact: 0213*******
+ *               userId: Object(id)
+ *               vendorId: Object(id)
+ *               items: [string, string, string]
+ *               status: "pending or recieved"
+ *               amount: 100
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Orders'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -86,9 +91,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all Orders
+ *     description: Only admins can retrieve all Orders.
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -96,12 +101,7 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
- *       - in: query
- *         name: role
- *         schema:
- *           type: string
- *         description: User role
+ *         description: Orders name
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -113,7 +113,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of Orders
  *       - in: query
  *         name: page
  *         schema:
@@ -131,8 +131,8 @@ module.exports = router;
  *               properties:
  *                 results:
  *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                   Orders:
+ *                     $ref: '#/components/schemas/Orders'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -153,11 +153,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /Orders/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a Order
+ *     description: Logged in users can fetch Order information.
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -166,14 +166,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Orders id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Orders'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -182,9 +182,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
+ *     summary: Update an Order
  *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -193,7 +193,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Orders id
  *     requestBody:
  *       required: true
  *       content:
@@ -203,28 +203,15 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
  *             example:
  *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
- *               contact: 0213*******
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Orders'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -235,9 +222,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete an Order
+ *     description: Logged in users can delete only their Orders. Only admins can delete other Orders.
+ *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -246,7 +233,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Orders id
  *     responses:
  *       "200":
  *         description: No content

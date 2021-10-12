@@ -1,38 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const itemValidation = require('../../validations/item.validation');
+const { createItem, getItems, getItem, updateItem, deleteItem } = require('../../controllers/item.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth('manageUsers'), validate(itemValidation.createItem), createItem)
+  .get(validate(itemValidation.getItems), getItems);
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:itemId')
+  .get(validate(itemValidation.getItem), getItem)
+  .patch(auth('manageUsers'), validate(itemValidation.updateItem), updateItem)
+  .delete(auth('manageUsers'), validate(itemValidation.deleteItem), deleteItem);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Items
+ *   description: Items management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /items:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a item
+ *     description: User can create other items.
+ *     tags: [Items]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -43,17 +43,15 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - email
+ *               - quantity
  *               - password
  *               - role
- *               - contact
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
+ *               quantity:
+ *                 type: Number
+ *
  *               password:
  *                 type: string
  *                 format: password
@@ -62,22 +60,18 @@ module.exports = router;
  *               role:
  *                  type: string
  *                  enum: [user, admin]
- *               contact:
- *                   type: string
- *
  *             example:
  *               name: fake name
- *               email: fake@example.com
+ *               quantity: 100
  *               password: password1
  *               role: user
- *               contact: 0213*******
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Items'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -86,9 +80,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all items
+ *     description: Only admins can retrieve all items.
+ *     tags: [Items]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -96,12 +90,12 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Items name
  *       - in: query
  *         name: role
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Items role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -113,7 +107,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of items
  *       - in: query
  *         name: page
  *         schema:
@@ -132,7 +126,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Items'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -153,11 +147,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /items/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a item
+ *     description: Logged in users can fetch item information.
+ *     tags: [Items]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -166,14 +160,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Items id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Items'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -182,9 +176,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
+ *     summary: Update an item
  *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     tags: [Items]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -193,7 +187,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Items id
  *     requestBody:
  *       required: true
  *       content:
@@ -203,10 +197,8 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
+ *               quantity:
+ *                 type: number
  *               password:
  *                 type: string
  *                 format: password
@@ -214,17 +206,15 @@ module.exports = router;
  *                 description: At least one number and one letter
  *             example:
  *               name: fake name
- *               email: fake@example.com
+ *               quantity: 100
  *               password: password1
- *               role: user
- *               contact: 0213*******
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Items'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -235,9 +225,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete an item
+ *     description: Logged in users can delete only their items. Only admins can delete other items.
+ *     tags: [Items]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -246,7 +236,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Items id
  *     responses:
  *       "200":
  *         description: No content

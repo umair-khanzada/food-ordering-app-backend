@@ -2,6 +2,11 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
+const categoryRoute = require('./category.route');
+const itemRoute = require('./item.route');
+const kitchenRoute = require('./kitchens.route');
+const orderRoutes = require('./order.route');
+const balanceRoutes = require('./balance.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -14,6 +19,26 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/items',
+    route: itemRoute,
+  },
+  {
+    path: '/categories',
+    route: categoryRoute,
+  },
+  {
+    path: '/kitchens',
+    route: kitchenRoute,
+  },
+  {
+    path: '/orders',
+    route: orderRoutes,
+  },
+  {
+    path: '/balance',
+    route: balanceRoutes,
   },
 ];
 
