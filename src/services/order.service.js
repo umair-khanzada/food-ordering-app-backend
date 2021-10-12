@@ -69,11 +69,11 @@ const deleteOrderById = async (orderId) => {
  * @returns {Promise<Order>}
  */
 const getOrderByVendorId = async (vendorId) => {
-  return Order.find({ vendorId }).populate('vendorId', 'name').populate('userId', 'name');
+  return Order.find({ vendorId }).populate('vendorId', 'name').populate('userId', 'name').sort({ _id: 'desc' });
 };
 
 const getOrderByUserId = async (userId) => {
-  return Order.find({ userId }).populate('vendorId', 'name').populate('userId', 'name');
+  return Order.find({ userId }).populate('vendorId', 'name').populate('userId', 'name').sort({ _id: 'desc' });
 };
 
 module.exports = {
