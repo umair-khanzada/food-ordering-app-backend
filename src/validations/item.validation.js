@@ -5,6 +5,7 @@ const createItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     // quantity: Joi.number().required(),
+    imgUrl: Joi.string(),
     price: Joi.number(),
     createdBy: Joi.string().custom(objectId),
     kitchenId: Joi.string().custom(objectId),

@@ -21,7 +21,7 @@ const createOrder = async (orderBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryOrders = async () => {
-  const response = await Order.find().populate('vendorId', 'name').populate('userId', 'name');
+  const response = await Order.find().populate('vendorId', 'name').populate('userId', 'name').sort({ _id: 'desc' });
   return response;
 };
 

@@ -27,7 +27,7 @@ const createAndEditBalance = async (balanceBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryBalances = async () => {
-  const response = await Balance.find().populate('vendorId', 'name').populate('userId', 'name');
+  const response = await (await Balance.find().populate('vendorId', 'name').populate('userId', 'name')).reverse();
   return response;
 };
 

@@ -24,7 +24,7 @@ const createUser = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryUsers = async () => {
-  const users = await User.find({});
+  const users = await User.find({}).sort({ _id: 'desc' });
   return users;
 };
 

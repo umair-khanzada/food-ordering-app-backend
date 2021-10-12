@@ -20,8 +20,8 @@ const createCategory = async (categoryBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryCategories = async (filter, options) => {
-  const response = await Category.paginate(filter, options);
+const queryCategories = async () => {
+  const response = await await Category.find().sort({ _id: 'desc' });
   return response;
 };
 
