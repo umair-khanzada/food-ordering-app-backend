@@ -18,6 +18,10 @@ const itemsSchema = Schema(
       type: Number,
       required: true,
     },
+    imgUrl: {
+      type: String,
+      required: true,
+    },
     // isAvailable: {
     //   type: Boolean,
     //   default: true,
