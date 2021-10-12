@@ -26,8 +26,8 @@ const createAndEditBalance = async (balanceBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryBalances = async (filter, options) => {
-  const response = await Balance.paginate(filter, options);
+const queryBalances = async () => {
+  const response = await (await Balance.find().populate('vendorId', 'name').populate('userId', 'name')).reverse();
   return response;
 };
 
@@ -69,10 +69,30 @@ const deleteBalanceById = async (balanceId) => {
   return balance;
 };
 
+/**
+ * Get balance by user id
+ * @param {ObjectId} balanceId
+ * @returns {Promise<Balance>}
+ */
+const getBalanceByUserId = async (userId) => {
+  return Balance.find({ userId }).populate('vendorId', 'name');
+};
+
+/**
+ * Get balance by vendor id
+ * @param {ObjectId} balanceId
+ * @returns {Promise<Balance>}
+ */
+const getBalanceByVendorId = async (vendorId) => {
+  return Balance.find({ vendorId }).populate('vendorId', 'name').populate('userId', 'name');
+};
+
 module.exports = {
   createAndEditBalance,
   queryBalances,
   getBalanceById,
   updateBalanceById,
   deleteBalanceById,
+  getBalanceByUserId,
+  getBalanceByVendorId,
 };

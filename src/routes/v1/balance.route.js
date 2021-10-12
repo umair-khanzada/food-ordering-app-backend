@@ -7,6 +7,8 @@ const {
   getBalance,
   updateBalance,
   deleteBalance,
+  getBalanceByUserId,
+  getBalanceByVendorId,
 } = require('../../controllers/balance.controller');
 
 const router = express.Router();
@@ -17,10 +19,13 @@ router
   .get(validate(BalanceValidation.getBalances), getBalances);
 
 router
-  .route('/:BalanceId')
+  .route('/:balanceId')
   .get(validate(BalanceValidation.getBalance), getBalance)
   .patch(validate(BalanceValidation.updateBalance), updateBalance)
   .delete(validate(BalanceValidation.deleteBalance), deleteBalance);
+
+router.route('/user/:userId').get(getBalanceByUserId);
+router.route('/vendor/:vendorId').get(getBalanceByVendorId);
 
 module.exports = router;
 

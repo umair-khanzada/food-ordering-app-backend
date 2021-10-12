@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 const { toJSON, paginate } = require('./plugins');
 
@@ -10,19 +11,19 @@ const categoriesSchema = mongoose.Schema(
       trim: true,
       unique: true,
     },
-    description: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    // description: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    kitchenId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Kitchens',
-    },
+    // kitchenId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Kitchens',
+    // },
   },
   {
     timestamps: true,

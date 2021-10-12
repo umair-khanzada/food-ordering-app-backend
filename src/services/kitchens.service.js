@@ -20,8 +20,8 @@ const createKitchen = async (kitchenBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryKitchens = async (filter, options) => {
-  const response = await Kitchen.paginate(filter, options);
+const queryKitchens = async () => {
+  const response = await Kitchen.find().sort({ _id: 'desc' });
   return response;
 };
 

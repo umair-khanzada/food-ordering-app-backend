@@ -34,10 +34,22 @@ const deleteOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getOrderByVendorId = catchAsync(async (req, res) => {
+  const ordersOfVendor = await orderService.getOrderByVendorId(req.params.vendorId);
+  res.send(ordersOfVendor);
+});
+
+const getOrderByUserId = catchAsync(async (req, res) => {
+  const ordersOfUser = await orderService.getOrderByUserId(req.params.userId);
+  res.send(ordersOfUser);
+});
+
 module.exports = {
   createOrder,
   getOrders,
   getOrder,
   updateOrder,
   deleteOrder,
+  getOrderByVendorId,
+  getOrderByUserId,
 };

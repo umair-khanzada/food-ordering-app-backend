@@ -37,7 +37,7 @@ const defaultRoutes = [
     route: orderRoutes,
   },
   {
-    path: '/balances',
+    path: '/balance',
     route: balanceRoutes,
   },
 ];

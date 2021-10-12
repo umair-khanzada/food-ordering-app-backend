@@ -10,18 +10,22 @@ const itemsSchema = Schema(
       required: true,
       trim: true,
     },
-    quantity: {
-      type: Number,
-      required: true,
-    },
+    // quantity: {
+    //   type: Number,
+    //   required: true,
+    // },
     price: {
       type: Number,
       required: true,
     },
-    isAvailable: {
-      type: Boolean,
+    imgUrl: {
+      type: String,
       required: true,
     },
+    // isAvailable: {
+    //   type: Boolean,
+    //   default: true,
+    // },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -36,7 +40,7 @@ const itemsSchema = Schema(
     },
     availableDate: {
       type: Date,
-      required: true,
+      // required: true,
     },
   },
   {

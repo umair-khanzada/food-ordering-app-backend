@@ -34,10 +34,22 @@ const deleteBalance = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getBalanceByUserId = catchAsync(async (req, res) => {
+  const balancesByUser = await balanceService.getBalanceByUserId(req.params.userId);
+  res.send(balancesByUser);
+});
+
+const getBalanceByVendorId = catchAsync(async (req, res) => {
+  const balancesByVendor = await balanceService.getBalanceByVendorId(req.params.vendorId);
+  res.send(balancesByVendor);
+});
+
 module.exports = {
   createBalance,
   getBalances,
   getBalance,
   updateBalance,
   deleteBalance,
+  getBalanceByUserId,
+  getBalanceByVendorId,
 };
