@@ -13,7 +13,8 @@ const getItems = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await itemService.queryItems(filter, options);
-  res.send(result);
+
+  res.send(result.filter((elem) => elem.categoryId !== null));
 });
 
 const getItem = catchAsync(async (req, res) => {
