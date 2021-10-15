@@ -33,7 +33,6 @@ const queryCategories = async () => {
 const getCategoryById = async (id) => {
   return Category.findById(id);
 };
-const getCategoryByKitchen = async (id) => Category.findById(id);
 
 /**
  * Update category by id
@@ -73,5 +72,4 @@ module.exports = {
   getCategoryById,
   updateCategoryById,
   deleteCategoryById,
-  getCategoryByKitchen,
 };

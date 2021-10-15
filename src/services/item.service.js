@@ -19,7 +19,7 @@ const createItem = async (userBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryItems = async () => {
-  const items = await Item.find().populate('categoryId', 'name').populate('kitchenId', 'name').sort({ _id: 'desc' });
+  const items = await Item.find().populate('categoryId', 'name').sort({ _id: 'desc' });
   return items;
 };
 /**
@@ -28,7 +28,7 @@ const queryItems = async () => {
  * @returns {Promise<Item>}
  */
 const getItemById = async (id) => {
-  return Item.findById(id).populate('categoryId', 'name').populate('kitchenId', 'name');
+  return Item.findById(id).populate('categoryId', 'name');
 };
 /**
  * Update item by id

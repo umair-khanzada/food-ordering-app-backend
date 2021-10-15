@@ -24,14 +24,6 @@ const getCategory = catchAsync(async (req, res) => {
   res.send(category);
 });
 
-const getCategoryByKitchen = catchAsync(async (req, res) => {
-  const category = await categoryService.getCategoryByKitchen(req.params.kitchenId);
-  if (!category) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
-  }
-  res.send(category);
-});
-
 const updateCategory = catchAsync(async (req, res) => {
   const category = await categoryService.updateCategoryById(req.params.categoryId, req.body);
   res.send(category);
@@ -48,5 +40,4 @@ module.exports = {
   getCategory,
   updateCategory,
   deleteCategory,
-  getCategoryByKitchen,
 };

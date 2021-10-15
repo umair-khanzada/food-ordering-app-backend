@@ -34,10 +34,7 @@ const itemsSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'Categories',
     },
-    kitchenId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Kitchens',
-    },
+
     availableDate: {
       type: Date,
       // required: true,
