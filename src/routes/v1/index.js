@@ -4,7 +4,6 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const categoryRoute = require('./category.route');
 const itemRoute = require('./item.route');
-const kitchenRoute = require('./kitchens.route');
 const orderRoutes = require('./order.route');
 const balanceRoutes = require('./balance.route');
 const config = require('../../config/config');
@@ -28,10 +27,7 @@ const defaultRoutes = [
     path: '/categories',
     route: categoryRoute,
   },
-  {
-    path: '/kitchens',
-    route: kitchenRoute,
-  },
+
   {
     path: '/orders',
     route: orderRoutes,

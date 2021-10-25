@@ -6,7 +6,6 @@ const createCategory = {
     name: Joi.string().required(),
     // description: Joi.string().required(),
     createdBy: Joi.string().custom(objectId),
-    // kitchenId: Joi.string().custom(objectId),
   }),
 };
 
@@ -15,7 +14,6 @@ const getCategories = {
     name: Joi.string(),
     description: Joi.string(),
     createdBy: Joi.string().custom(objectId),
-    // kitchenId: Joi.string().custom(objectId),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
@@ -26,11 +24,6 @@ const getCategory = {
     categoryId: Joi.string().custom(objectId),
   }),
 };
-// const getCategoryByKitchen = {
-//   params: Joi.object().keys({
-//     kitchenId: Joi.string().custom(objectId),
-//   }),
-// };
 
 const updateCategory = {
   params: Joi.object().keys({
@@ -57,5 +50,4 @@ module.exports = {
   getCategory,
   updateCategory,
   deleteCategory,
-  // getCategoryByKitchen,
 };

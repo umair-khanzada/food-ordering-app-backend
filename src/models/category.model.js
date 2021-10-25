@@ -20,10 +20,6 @@ const categoriesSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    // kitchenId: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Kitchens',
-    // },
   },
   {
     timestamps: true,

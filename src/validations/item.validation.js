@@ -8,7 +8,6 @@ const createItem = {
     imgUrl: Joi.string(),
     price: Joi.number(),
     createdBy: Joi.string().custom(objectId),
-    kitchenId: Joi.string().custom(objectId),
     categoryId: Joi.string().custom(objectId),
     // availableDate: Joi.date(),
   }),
@@ -22,7 +21,6 @@ const getItems = {
     imgUrl: Joi.string(),
 
     // availableDate: Joi.date(),
-    KitchenId: Joi.string().custom(objectId),
     categoryId: Joi.string().custom(objectId),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -40,7 +38,6 @@ const updateItem = {
   body: Joi.object()
     .keys({
       name: Joi.string().required(),
-      kitchenId: Joi.string().custom(objectId),
       categoryId: Joi.string().custom(objectId),
       price: Joi.number(),
       imgUrl: Joi.string(),
