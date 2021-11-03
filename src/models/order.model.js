@@ -17,6 +17,11 @@ const orderSchema = Schema(
       type: [],
       ref: 'Items',
     },
+
+    date: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       enum: ['pending', 'recieved', 'rejected'],
