@@ -13,8 +13,17 @@ const createAndEditBalance = async (balanceBody) => {
     userId,
     vendorId,
   };
+  const balance = await Balance.findOne(query);
+  let amount = 0;
+  const { amount: orderAmount } = balanceBody;
+  if (balance) {
+    const { amount: actualAmount } = balance;
+    amount = actualAmount - orderAmount;
+  } else {
+    amount -= orderAmount;
+  }
 
-  return Balance.findOneAndUpdate(query, balanceBody, { upsert: true });
+  return Balance.findOneAndUpdate(query, { ...balanceBody, amount }, { upsert: true });
 };
 
 /**

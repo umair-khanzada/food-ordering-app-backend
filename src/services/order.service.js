@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Order } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { createAndEditBalance } = require('./balance.service');
 
 /**
  * Create a Order
@@ -46,6 +47,11 @@ const updateOrderById = async (orderId, updateBody) => {
 
   Object.assign(order, updateBody);
   await order.save();
+  if (order.status === 'received') {
+    const { amount } = updateBody;
+    const { userId, vendorId } = order;
+    await createAndEditBalance({ userId, vendorId, amount });
+  }
   return order;
 };
 
