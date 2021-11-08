@@ -25,7 +25,7 @@ const getBalance = catchAsync(async (req, res) => {
 });
 
 const updateBalance = catchAsync(async (req, res) => {
-  const balance = await balanceService.createAndEditBalance(req.body);
+  const balance = await balanceService.updateBalanceById(req.body);
   res.send(balance);
 });
 

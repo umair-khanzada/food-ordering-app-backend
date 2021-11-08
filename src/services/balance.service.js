@@ -53,15 +53,14 @@ const getBalanceById = async (id) => Balance.findById(id);
  * @param {Object} updateBody
  * @returns {Promise<balance>}
  */
-const updateBalanceById = async (balanceId, updateBody) => {
-  const balance = await getBalanceById(balanceId);
-  if (!balance) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Balance not found');
-  }
+const updateBalanceById = async (balanceBody) => {
+  const { userId, vendorId } = balanceBody;
+  const query = {
+    userId,
+    vendorId,
+  };
 
-  Object.assign(balance, updateBody);
-  await balance.save();
-  return balance;
+  return Balance.findOneAndUpdate(query, balanceBody, { upsert: true });
 };
 
 /**
