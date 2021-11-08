@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
+const { SERVICE, USER, PASSWORD } = require('../constants');
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -54,13 +55,12 @@ module.exports = {
   },
   email: {
     smtp: {
-      host: envVars.SMTP_HOST,
-      port: envVars.SMTP_PORT,
+      service: SERVICE,
       auth: {
-        user: envVars.SMTP_USERNAME,
-        pass: envVars.SMTP_PASSWORD,
+        user: USER, // generated ethereal user
+        pass: PASSWORD, // generated ethereal password
       },
     },
-    from: envVars.EMAIL_FROM,
+    from: USER,
   },
 };
